@@ -5,12 +5,10 @@
         <v-toolbar-title>Desafio CooperSystem</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn flat>Pedidos</v-btn>
-          <v-btn flat><router-link to="/produtos">Produtos</router-link></v-btn>
+          <router-link to="/pedidos"  class="pt-4"><v-btn flat>Pedidos</v-btn></router-link>
+          <router-link to="/produtos" class="pt-4"><v-btn flat>Produtos</v-btn></router-link>
         </v-toolbar-items>
       </v-toolbar>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/produtos">Produtos</router-link>
     </div>
     <router-view/>
   </div>
