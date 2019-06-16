@@ -2,84 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pedido;
-use Illuminate\Http\Request;
+use App\Models\Pedido as ModeloPedido;
+use App\Services\Pedido as ServicoPedido;
+use Psr\Http\Message\ServerRequestInterface;
 
 class PedidoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return ModeloPedido::latest()->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(ServerRequestInterface $request)
     {
-        //
+        $dados = $request->getParsedBody();
+
+        $pedido = new ServicoPedido();
+
+        $response = response();
+        return $response->json($pedido->criar($dados));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function show(ModeloPedido $pedido)
     {
-        //
+        return $pedido;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pedido  $pedido
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Pedido $pedido)
+    public function update(ServerRequestInterface $request, $id)
     {
-        //
+        $dados = $request->getParsedBody();
+
+        $pedido = new ServicoPedido();
+
+        $response = response();
+        return $response->json($pedido->alterar($id, $dados));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pedido  $pedido
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Pedido $pedido)
+    public function destroy(ModeloPedido $pedido)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pedido  $pedido
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Pedido $pedido)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Pedido  $pedido
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Pedido $pedido)
-    {
-        //
+        $pedido->delete();
+        return response('Deletado!', 202);
     }
 }
