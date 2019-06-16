@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Produto;
+use App\Models\Produto as ModeloProduto;
+use App\Services\Produto as ServicoProduto;
 use Illuminate\Http\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
 class ProdutoController extends Controller
 {
@@ -14,28 +16,17 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        //
+        return ModeloProduto::latest()->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(ServerRequestInterface $request)
     {
-        //
-    }
+        $dados = $request->getParsedBody();
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        $produto = new ServicoProduto();
+
+        $response = response();
+        return $response->json($produto->criar($dados));
     }
 
     /**
@@ -44,20 +35,9 @@ class ProdutoController extends Controller
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function show(Produto $produto)
+    public function show(ModeloProduto $produto)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Produto  $produto
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Produto $produto)
-    {
-        //
+        return $produto;
     }
 
     /**
@@ -67,9 +47,14 @@ class ProdutoController extends Controller
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Produto $produto)
+    public function update(ServerRequestInterface $request, $id)
     {
-        //
+        $dados = $request->getParsedBody();
+
+        $produto = new ServicoProduto();
+
+        $response = response();
+        return $response->json($produto->alterar($id, $dados));
     }
 
     /**
@@ -78,8 +63,9 @@ class ProdutoController extends Controller
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Produto $produto)
+    public function destroy(ModeloProduto $produto)
     {
-        //
+        $produto->delete();
+        return response('Deletado!', 202);
     }
 }

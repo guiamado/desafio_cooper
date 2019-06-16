@@ -12,4 +12,10 @@ class Produto extends Model
 //    {
 //        return $this->belongsTo(Pedido::class);
 //    }
+    protected $fillable = [
+        'nome',
+        'valor_unitario',
+        'quantidade_estoque',
+        'situacao_produto',
+    ];
 }
