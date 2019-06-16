@@ -14,7 +14,7 @@ class CreatePedidosTable extends Migration
     public function up()
     {
         Schema::create('pedidos', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('pedido_id');
             $table->integer('quantidade_pedido');
             $table->float('valor_unitario');
             $table->string('solicitante');
