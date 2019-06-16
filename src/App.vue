@@ -1,8 +1,16 @@
 <template>
   <div id="app">
     <div id="nav">
+      <v-toolbar app>
+        <v-toolbar-title>Desafio CooperSystem</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items class="hidden-sm-and-down">
+          <v-btn flat>Pedidos</v-btn>
+          <v-btn flat><router-link to="/produtos">Produtos</router-link></v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/produtos">Produtos</router-link>
     </div>
     <router-view/>
   </div>
