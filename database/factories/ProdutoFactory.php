@@ -16,6 +16,6 @@ $factory->define(Produto::class, function (Faker $faker) {
         'nome' => $faker->userName,
         'valor_unitario' => $faker->randomFloat(0, 2000),
         'quantidade_estoque' => $quantidade_estoque,
-        'situacao_produto' => $situacao_produto
+        'situacao_produto' => $situacao_produto == 1 ? 'Disponivel' : 'Indisponivel'
     ];
 });

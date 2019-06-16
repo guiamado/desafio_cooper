@@ -18,7 +18,7 @@ class CreateProdutosTable extends Migration
             $table->string('nome');
             $table->float('valor_unitario');
             $table->integer('quantidade_estoque');
-            $table->boolean('situacao_produto');
+            $table->string('situacao_produto');
             $table->timestamps();
         });
     }
