@@ -26,7 +26,7 @@ class CreatePedidosTable extends Migration
             $table->string('numero');
             $table->string('despachante');
             $table->string('situacao_pedido');
-            $table->integer('produto_id');
+            $table->integer('produto_id')->unsigned();
             $table->timestamps();
         });
     }
