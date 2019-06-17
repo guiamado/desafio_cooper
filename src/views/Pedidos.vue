@@ -2,18 +2,26 @@
     <div>
         <v-data-table
             :headers="headers"
-            :items="desserts"
+            :items="pedidos"
             class="elevation-1"
         >
             <template v-slot:items="props">
-                <td>{{ props.item.name }}</td>
-                <td class="text-xs-center">{{ props.item.calories }}</td>
-                <td class="text-xs-center">{{ props.item.fat }}</td>
-                <td class="text-xs-center">{{ props.item.carbs }}</td>
-                <td class="text-xs-center">{{ props.item.protein }}</td>
-                <td class="text-xs-center">{{ props.item.protein }}</td>
-                <td class="text-xs-center">{{ props.item.protein }}</td>
-                <td class="text-xs-center"><v-btn icon><v-icon>delete</v-icon></v-btn></td>
+                <td>{{ props.item.pedido_id }}</td>
+                <td class="text-xs-center">{{ props.item.nome }}</td>
+                <td class="text-xs-center">{{ props.item.quantidade_pedido }}</td>
+                <td class="text-xs-center">{{ props.item.valor_unitario }}</td>
+                <td class="text-xs-center">{{ props.item.solicitante }}</td>
+                <td class="text-xs-center">{{ props.item.despachante }}</td>
+                <td class="text-xs-center">{{ props.item.situacao_pedido }}</td>
+                <td class="text-xs-center">{{ props.item.cep }} + {{ props.item.bairro }} + {{ props.item.uf }} + {{ props.item.rua }} + {{ props.item.municipio }} + {{ props.item.numero }}</td>
+                <td class="text-xs-center">
+                    <v-btn icon @click="excluirProduto(props.item)">
+                        <v-icon>delete</v-icon>
+                    </v-btn>
+                    <v-btn icon @click="editarProduto(props.item)">
+                        <v-icon>edit</v-icon>
+                    </v-btn>
+                </td>
             </template>
         </v-data-table>
         <v-card>
@@ -25,22 +33,37 @@
                     center
                     right
                     color="green"
+                    @click="dialogCadastro = !dialogCadastro"
                 >
                     <v-icon>add</v-icon>
                 </v-btn>
             </v-card-text>
         </v-card>
+        <NovoPedido v-if="dialogCadastro === true" v-model="dialogCadastro" :dialogCadastro.sync="dialogCadastro"></NovoPedido>
+        <EditarPedido v-if="dialogEditar === true" v-model="dialogEditar" :dialogEditar.sync="dialogEditar" :dados="pedidoUnico"></EditarPedido>
     </div>
 </template>
 <script>
+    import axios from 'axios';
+    import NovoPedido from '../components/NovoPedido.vue';
+    import EditarPedido from '../components/EditarPedido.vue';
     export default {
         data () {
             return {
+                pedidos: [],
+                pedidoUnico: {},
+                dialogCadastro: false,
+                dialogEditar: false,
                 headers: [
                     {
                         text: 'Peido Id',
                         align: 'center',
                         value: 'pedido_id',
+                    },
+                    {
+                        text: 'Nome do Produto',
+                        align: 'center',
+                        value: 'nome',
                     },
                     {
                         text: 'Quantidade do Pedido',
@@ -76,89 +99,27 @@
                         align: 'center',
                     },
                 ],
-                desserts: [
-                    {
-                        name: 'Frozen Yogurt',
-                        calories: 159,
-                        fat: 6.0,
-                        carbs: 24,
-                        protein: 4.0,
-                        iron: '1%',
-                    },
-                    {
-                        name: 'Ice cream sandwich',
-                        calories: 237,
-                        fat: 9.0,
-                        carbs: 37,
-                        protein: 4.3,
-                        iron: '1%',
-                    },
-                    {
-                        name: 'Eclair',
-                        calories: 262,
-                        fat: 16.0,
-                        carbs: 23,
-                        protein: 6.0,
-                        iron: '7%',
-                    },
-                    {
-                        name: 'Cupcake',
-                        calories: 305,
-                        fat: 3.7,
-                        carbs: 67,
-                        protein: 4.3,
-                        iron: '8%',
-                    },
-                    {
-                        name: 'Gingerbread',
-                        calories: 356,
-                        fat: 16.0,
-                        carbs: 49,
-                        protein: 3.9,
-                        iron: '16%',
-                    },
-                    {
-                        name: 'Jelly bean',
-                        calories: 375,
-                        fat: 0.0,
-                        carbs: 94,
-                        protein: 0.0,
-                        iron: '0%',
-                    },
-                    {
-                        name: 'Lollipop',
-                        calories: 392,
-                        fat: 0.2,
-                        carbs: 98,
-                        protein: 0,
-                        iron: '2%',
-                    },
-                    {
-                        name: 'Honeycomb',
-                        calories: 408,
-                        fat: 3.2,
-                        carbs: 87,
-                        protein: 6.5,
-                        iron: '45%',
-                    },
-                    {
-                        name: 'Donut',
-                        calories: 452,
-                        fat: 25.0,
-                        carbs: 51,
-                        protein: 4.9,
-                        iron: '22%',
-                    },
-                    {
-                        name: 'KitKat',
-                        calories: 518,
-                        fat: 26.0,
-                        carbs: 65,
-                        protein: 7,
-                        iron: '6%',
-                    },
-                ],
             }
-        }
+        },
+        components: {
+            NovoPedido,
+            EditarPedido,
+        },
+        created() {
+            axios.get('http://127.0.0.1:8000/api/pedido')
+                .then(res => this.pedidos = res.data)
+                .catch(error => console.log(error.response.data));
+        },
+        methods: {
+            editarProduto(item) {
+                this.dialogEditar = !this.dialogEditar;
+                this.pedidoUnico = item;
+            },
+            excluirProduto(item) {
+                axios.delete(`http://127.0.0.1:8000/api/pedido/${item.pedido_id}`)
+                    .then(() => this.pedidos.splice(index, 1))
+                    .catch(error => this.errors = error.response.data.error)
+            },
+        },
     }
 </script>
