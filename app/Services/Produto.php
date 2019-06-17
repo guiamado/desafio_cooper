@@ -11,12 +11,13 @@ class Produto implements IService
         $validator = Validator::make($dados, [
             "nome" => 'required|string',
             "quantidade_estoque" => 'required|int',
-            "situacao_produto" => 'required|string',
         ]);
 
         if ($validator->fails()) {
             throw new \Exception($validator->errors()->first());
         }
+
+        $dados['situacao_produto'] = 'Disponivel';
 
         if ($dados['quantidade_estoque'] == 0) {
             $dados['situacao_produto'] = "Indisponivel";
@@ -38,6 +39,8 @@ class Produto implements IService
         if ($validator->fails()) {
             throw new \Exception($validator->errors()->first());
         }
+
+        $dados['situacao_produto'] = 'Disponivel';
 
         if ($dados['quantidade_estoque'] == 0) {
             $dados['situacao_produto'] = "Indisponivel";
