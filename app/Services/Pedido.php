@@ -16,12 +16,25 @@ class Pedido implements IService
             "despachante" => 'required|string',
             "quantidade_pedido" => 'required|int',
             "situacao_pedido" => 'required|string',
-            "produto_id" => 'required|int',
+            "produto" => 'required|string',
         ]);
 
         if ($validator->fails()) {
             throw new \Exception($validator->errors()->first());
         }
+
+        $produto_id = DB::table('public.produtos')
+            ->select([
+                'public.produtos.produto_id'
+            ])
+            ->where('public.produtos.nome', '=', $dados['produto'])
+            ->get()->toArray();
+
+        unset($dados['produto']);
+
+        $dados = array_merge($dados, [
+            'produto_id' => (int) $produto_id[0]->produto_id
+        ]);
 
         $pedido = ModeloPedido::create($dados);
 
