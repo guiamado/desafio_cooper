@@ -12,7 +12,7 @@
                 <td class="text-xs-center">{{ props.item.quantidade_estoque }}</td>
                 <td class="text-xs-center">{{ props.item.situacao_produto }}</td>
                 <td class="text-xs-center">
-                    <v-btn icon>
+                    <v-btn icon @click="excluirProduto(props.item)">
                         <v-icon>delete</v-icon>
                     </v-btn>
                     <v-btn icon @click="editarProduto(props.item)">
@@ -44,7 +44,6 @@
     import axios from 'axios';
     import NovoProduto from '../components/NovoProduto.vue';
     import EditarProduto from '../components/EditarProduto.vue';
-
     export default {
         data () {
             return {
@@ -99,7 +98,12 @@
             editarProduto(item) {
                 this.dialogEditar = !this.dialogEditar;
                 this.produtoUnico = item;
-            }
+            },
+            excluirProduto(item) {
+                axios.delete(`http://127.0.0.1:8000/api/produto/${item.produto_id}`)
+                    .then(() => this.produtos.splice(index, 1))
+                    .catch(error => this.errors = error.response.data.error)
+            },
         },
     }
 </script>
