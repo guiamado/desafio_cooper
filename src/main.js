@@ -5,7 +5,6 @@ import router from './router';
 import store from './store';
 import './registerServiceWorker';
 import 'vuetify/dist/vuetify.min.css';
-import axios from 'axios';
 Vue.use(Vuetify);
 
 Vue.config.productionTip = false;
