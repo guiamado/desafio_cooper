@@ -10,7 +10,10 @@ class PedidoController extends Controller
 {
     public function index()
     {
-        return ModeloPedido::latest()->get();
+        $pedido = new ServicoPedido();
+        $response = response();
+
+        return $response->json($pedido->consultar());
     }
 
     public function store(ServerRequestInterface $request)

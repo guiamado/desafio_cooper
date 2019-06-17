@@ -3,7 +3,9 @@
 
 namespace App\Services;
 use App\Models\Pedido as ModeloPedido;
+use App\Models\Produto as ModeloProduto;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB as DB;
 
 class Pedido implements IService
 {
@@ -42,6 +44,21 @@ class Pedido implements IService
         $pedido = ModeloPedido::where('pedido_id', $id)->update($dados);
 
         return $pedido;
+
+    }
+
+    public function consultar() {
+        return DB::table('public.pedidos')
+            ->select([
+                '*'
+            ])
+            ->join(
+                'public.produtos',
+                'public.produtos.produto_id',
+                '=',
+                'public.pedidos.produto_id'
+            )->get()->toArray();
+
 
     }
 }
