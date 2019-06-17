@@ -15,7 +15,7 @@
                                 <v-text-field label="Valor Unitario" prefix="$" placeholder="9.99" v-model="produto.valor_unitario" required></v-text-field>
                             </v-flex>
                             <v-flex xs12>
-                                <v-text-field label="Quantidade em Estoque" v-model="produto.quantidade_estoque" required></v-text-field>
+                                <v-text-field label="Quantidade em Estoque" v-model="produto.quantidade_estoque" type="number" required></v-text-field>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -54,6 +54,7 @@
                         this.$emit('update:dialogEditar', false);
                     })
                     .catch(error => console.log(error.response.data));
+                this.$emit('update:dialogCadastro', false);
             },
         },
     }
