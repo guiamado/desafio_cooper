@@ -1,0 +1,18 @@
+version: '2'
+services:
+  database-service:
+    image: postgres:10
+    container_name: database
+    environment:
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=usuario
+      - POSTGRES_DB=database
+      - POSTGRES_DB_TEST=database_teste
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    volumes:
+      - ./database/docker-data/postgres:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/0.schema.sql
+      #- ./database/initial-data.sql:/docker-entrypoint-initdb.d/1.data.sql
