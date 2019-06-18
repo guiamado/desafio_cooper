@@ -14,11 +14,25 @@
                             <v-flex xs6>
                                 <v-text-field label="Despachante" v-model="pedido.despachante" required></v-text-field>
                             </v-flex>
+                            <v-flex xs12>
+                                <v-select
+                                        :items="buscarNomeProdutos(produtos)"
+                                        label="Produtos"
+                                        v-model="pedido.nome"
+                                ></v-select>
+                            </v-flex>
                             <v-flex xs6>
                                 <v-text-field label="Quantidade do Pedido" v-model="pedido.quantidade_pedido" type="number" required></v-text-field>
                             </v-flex>
                             <v-flex xs6>
-                                <v-text-field label="Valor Unitario" v-model="pedido.valor_unitario" required></v-text-field>
+                                <v-text-field
+                                        label="Valor Unitario"
+                                        v-model="pedido.valor_unitario"
+                                        type="number"
+                                        readonly
+                                        required
+                                        hint="Valor atualizado de acordo com o Produto"
+                                        persistent-hint></v-text-field>
                             </v-flex>
                             <v-flex xs12>
                                 <v-select
@@ -45,13 +59,6 @@
                             <v-flex xs6>
                                 <v-text-field label="Numero" v-model="pedido.numero" required type="number"></v-text-field>
                             </v-flex>
-                            <v-flex xs12>
-                                <v-select
-                                        :items="buscarNomeProdutos(produtos)"
-                                        label="Produtos"
-                                        v-model="pedido.produto"
-                                ></v-select>
-                            </v-flex>
                         </v-layout>
                     </v-container>
                 </v-card-text>
@@ -68,15 +75,16 @@
 <script>
     import axios from 'axios';
     import _ from 'lodash';
+
     export default {
-        name: "NovoProduto",
+        name: "NovoPedido",
         props: ['dialogCadastro'],
         data() {
             return {
                 pedido: {
                     solicitante: '',
                     despachante: '',
-                    quantidade_pedido: 0,
+                    quantidade_pedido: null,
                     valor_unitario: 0,
                     situacao_pedido: '',
                     cep: '',
@@ -85,7 +93,7 @@
                     bairro: '',
                     rua: '',
                     numero: '',
-                    produto: '',
+                    nome: '',
                 },
                 items: ['Pendente de Envio', 'Enviado', 'Entregue'],
                 produtos: [],
@@ -112,7 +120,7 @@
             buscarNomeProdutos(value) {
 
                 return _.map(value, 'nome');
-            }
+            },
         },
     }
 </script>
