@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { mapActions } from 'vuex';
 import _ from 'lodash';
 
 export default {
@@ -99,17 +99,15 @@ export default {
       .catch(error => console.log(error.response.data));
   },
   methods: {
+      ...mapActions({
+          atualizarPedido: 'componentes/atualizarPedido',
+      }),
     closeModal() {
       this.$emit('update:dialogEditar', false);
     },
     alterarPedido() {
-      axios.patch(`http://localhost:8000/api/pedido/${this.pedido.pedido_id}`, this.pedido)
-        .then(() => {
-          this.$emit('update:dialogEditar', false);
-        })
-        .catch(error => console.log(error.response.data));
-
-      this.$emit('update:dialogCadastro', false);
+        this.atualizarPedido(this.pedido);
+        this.$emit('update:dialogEditar', false);
     },
     buscarNomeProdutos(value) {
       return _.map(value, 'nome');

@@ -63,14 +63,13 @@
     </div>
 </template>
 <script>
-import axios from 'axios';
+import { mapActions, mapGetters } from 'vuex';
 import NovoPedido from '../components/NovoPedido.vue';
 import EditarPedido from '../components/EditarPedido.vue';
 
 export default {
   data() {
     return {
-      pedidos: [],
       pedidoUnico: {},
       dialogCadastro: false,
       dialogEditar: false,
@@ -131,23 +130,24 @@ export default {
     EditarPedido,
   },
   created() {
-    axios.get('http://127.0.0.1:8000/api/pedido')
-    // eslint-disable-next-line
-      .then(res => this.pedidos = res.data)
-    // eslint-disable-next-line
-      .catch(error => console.log(error.response.data));
+      this.obterPedidos();
   },
+    computed: {
+        ...mapGetters({
+            pedidos: 'componentes/dados',
+        }),
+    },
   methods: {
+      ...mapActions({
+          obterPedidos: 'componentes/obterPedidos',
+          removerPedido: 'componentes/removerPedido',
+      }),
     editarProduto(item) {
       this.dialogEditar = !this.dialogEditar;
       this.pedidoUnico = item;
     },
     excluirProduto(item) {
-      axios.delete(`http://127.0.0.1:8000/api/pedido/${item.pedido_id}`)
-      // eslint-disable-next-line
-        .then(() => this.pedidos.splice(index, 1))
-        // eslint-disable-next-line
-        .catch(error => this.errors = error.response.data.error);
+        this.removerPedido(item.pedido_id);
     },
   },
 };

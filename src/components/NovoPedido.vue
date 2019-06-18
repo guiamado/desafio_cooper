@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { mapActions } from 'vuex';
 import _ from 'lodash';
 
 export default {
@@ -105,16 +105,14 @@ export default {
       .catch(error => console.log(error.response.data));
   },
   methods: {
+      ...mapActions({
+          cadastrarPedido: 'componentes/cadastrarPedido',
+      }),
     closeModal() {
       this.$emit('update:dialogCadastro', false);
     },
     criarPedido() {
-      axios.post('http://localhost:8000/api/pedido', this.pedido)
-        .then(() => {
-          this.$emit('update:dialogEditar', false);
-        })
-        .catch(error => console.log(error.response.data));
-
+      this.cadastrarPedido(this.pedido);
       this.$emit('update:dialogCadastro', false);
     },
     buscarNomeProdutos(value) {
