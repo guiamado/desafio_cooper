@@ -22,9 +22,4 @@ class Pedido extends Model
         'situacao_pedido',
         'produto_id'
     ];
-
-//    public function produto()
-//    {
-//        return $this->hasMany(Produto::class);
-//    }
 }
