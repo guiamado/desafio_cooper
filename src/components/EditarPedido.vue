@@ -99,15 +99,15 @@ export default {
       .catch(error => console.log(error.response.data));
   },
   methods: {
-      ...mapActions({
-          atualizarPedido: 'componentes/atualizarPedido',
-      }),
+    ...mapActions({
+      atualizarPedido: 'componentes/atualizarPedido',
+    }),
     closeModal() {
       this.$emit('update:dialogEditar', false);
     },
     alterarPedido() {
-        this.atualizarPedido(this.pedido);
-        this.$emit('update:dialogEditar', false);
+      this.atualizarPedido(this.pedido);
+      this.$emit('update:dialogEditar', false);
     },
     buscarNomeProdutos(value) {
       return _.map(value, 'nome');
