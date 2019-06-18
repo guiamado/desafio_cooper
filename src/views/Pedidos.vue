@@ -16,13 +16,13 @@
                 <td class="text-xs-center">{{ props.item.solicitante }}</td>
                 <td class="text-xs-center">{{ props.item.despachante }}</td>
                 <td class="text-xs-center">{{ props.item.situacao_pedido }}</td>
-                <td class="text-xs-center">
-                    {{ props.item.cep }} +
-                    {{ props.item.bairro }} +
-                    {{ props.item.uf }} +
-                    {{ props.item.rua }} +
-                    {{ props.item.municipio }} +
-                    {{ props.item.numero }}
+                <td class="text-xs-center" style="width: 190px">
+                    CEP: {{ props.item.cep }}
+                    UF: {{ props.item.uf }}
+                    Municipio: {{ props.item.municipio }}
+                    Bairro: {{ props.item.bairro }}
+                    Rua: {{ props.item.rua }}
+                    Numero: {{ props.item.numero }}
                 </td>
                 <td class="text-xs-center">
                     <v-btn icon @click="excluirProduto(props.item)">
