@@ -130,24 +130,24 @@ export default {
     EditarPedido,
   },
   created() {
-      this.obterPedidos();
+    this.obterPedidos();
   },
-    computed: {
-        ...mapGetters({
-            pedidos: 'componentes/dados',
-        }),
-    },
+  computed: {
+    ...mapGetters({
+      pedidos: 'componentes/dados',
+    }),
+  },
   methods: {
-      ...mapActions({
-          obterPedidos: 'componentes/obterPedidos',
-          removerPedido: 'componentes/removerPedido',
-      }),
+    ...mapActions({
+      obterPedidos: 'componentes/obterPedidos',
+      removerPedido: 'componentes/removerPedido',
+    }),
     editarProduto(item) {
       this.dialogEditar = !this.dialogEditar;
       this.pedidoUnico = item;
     },
     excluirProduto(item) {
-        this.removerPedido(item.pedido_id);
+      this.removerPedido(item.pedido_id);
     },
   },
 };

@@ -107,15 +107,15 @@ export default {
   },
   methods: {
     ...mapActions({
-        obterProdutos: 'componentes/obterProdutos',
-        removerProduto: 'componentes/removerProduto',
+      obterProdutos: 'componentes/obterProdutos',
+      removerProduto: 'componentes/removerProduto',
     }),
     editarProduto(item) {
       this.dialogEditar = !this.dialogEditar;
       this.produtoUnico = item;
     },
     excluirProduto(item) {
-        this.removerProduto(item.produto_id);
+      this.removerProduto(item.produto_id);
     },
   },
 };

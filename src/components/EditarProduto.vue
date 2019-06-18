@@ -33,6 +33,7 @@
 <script>
 import axios from 'axios';
 import { mapActions } from 'vuex';
+
 export default {
   name: 'NovoProduto',
   props: ['dialogEditar', 'dados'],
@@ -42,21 +43,21 @@ export default {
     };
   },
   methods: {
-      ...mapActions({
-          atualizarProduto: 'componentes/atualizarProduto',
-      }),
+    ...mapActions({
+      atualizarProduto: 'componentes/atualizarProduto',
+    }),
     closeModal() {
       this.$emit('update:dialogEditar', false);
     },
     alterarProduto() {
-          if (this.produto.quantidade_estoque > 0) {
-              this.produto.situacao_produto = 'Disponivel';
-          }
-          if (this.produto.quantidade_estoque === 0) {
-              this.produto.situacao_produto = 'Indisponivel';
-          }
+      if (this.produto.quantidade_estoque > 0) {
+        this.produto.situacao_produto = 'Disponivel';
+      }
+      if (this.produto.quantidade_estoque === 0) {
+        this.produto.situacao_produto = 'Indisponivel';
+      }
 
-        this.atualizarProduto(this.produto);
+      this.atualizarProduto(this.produto);
       this.$emit('update:dialogEditar', false);
     },
   },

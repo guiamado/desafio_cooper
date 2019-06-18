@@ -105,9 +105,9 @@ export default {
       .catch(error => console.log(error.response.data));
   },
   methods: {
-      ...mapActions({
-          cadastrarPedido: 'componentes/cadastrarPedido',
-      }),
+    ...mapActions({
+      cadastrarPedido: 'componentes/cadastrarPedido',
+    }),
     closeModal() {
       this.$emit('update:dialogCadastro', false);
     },

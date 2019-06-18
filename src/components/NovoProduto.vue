@@ -46,9 +46,9 @@ export default {
     };
   },
   methods: {
-      ...mapActions({
-          cadastrarProduto: 'componentes/cadastrarProduto',
-      }),
+    ...mapActions({
+      cadastrarProduto: 'componentes/cadastrarProduto',
+    }),
     closeModal() {
       this.$emit('update:dialogCadastro', false);
     },
