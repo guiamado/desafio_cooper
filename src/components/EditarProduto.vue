@@ -31,30 +31,30 @@
 </template>
 
 <script>
-    import axios from 'axios';
+import axios from 'axios';
 
-    export default {
-        name: "NovoProduto",
-        props: ['dialogEditar', 'dados'],
-        data() {
-            return {
-                produto: this.dados,
-            }
-        },
-        methods: {
-            closeModal() {
-                this.$emit('update:dialogEditar', false);
-            },
-            alterarProduto() {
-                axios.patch(`http://localhost:8000/api/produto/${this.produto.produto_id}`, this.produto)
-                    .then(() => {
-                        this.$emit('update:dialogEditar', false);
-                    })
-                    .catch(error => console.log(error.response.data));
-                this.$emit('update:dialogCadastro', false);
-            },
-        },
-    }
+export default {
+  name: 'NovoProduto',
+  props: ['dialogEditar', 'dados'],
+  data() {
+    return {
+      produto: this.dados,
+    };
+  },
+  methods: {
+    closeModal() {
+      this.$emit('update:dialogEditar', false);
+    },
+    alterarProduto() {
+      axios.patch(`http://localhost:8000/api/produto/${this.produto.produto_id}`, this.produto)
+        .then(() => {
+          this.$emit('update:dialogEditar', false);
+        })
+        .catch(error => console.log(error.response.data));
+      this.$emit('update:dialogCadastro', false);
+    },
+  },
+};
 </script>
 
 <style scoped>

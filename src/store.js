@@ -8,9 +8,6 @@ export default new Vuex.Store({
     status: false,
   },
   mutations: {
-    modalCadastroProduto: (state, status) => {
-      state.status = status;
-    }
   },
   actions: {
 

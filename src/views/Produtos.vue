@@ -36,74 +36,88 @@
                 </v-btn>
             </v-card-text>
         </v-card>
-        <NovoProduto v-if="dialogCadastro === true" v-model="dialogCadastro" :dialogCadastro.sync="dialogCadastro"></NovoProduto>
-        <EditarProduto v-if="dialogEditar === true" v-model="dialogEditar" :dialogEditar.sync="dialogEditar" :dados="produtoUnico"></EditarProduto>
+        <NovoProduto
+                v-if="dialogCadastro === true"
+                v-model="dialogCadastro"
+                :dialogCadastro.sync="dialogCadastro">
+        </NovoProduto>
+        <EditarProduto
+                v-if="dialogEditar === true"
+                v-model="dialogEditar"
+                :dialogEditar.sync="dialogEditar"
+                :dados="produtoUnico">
+        </EditarProduto>
     </div>
 </template>
 <script>
-    import axios from 'axios';
-    import NovoProduto from '../components/NovoProduto.vue';
-    import EditarProduto from '../components/EditarProduto.vue';
-    export default {
-        data () {
-            return {
-                produtos: [],
-                produtoUnico: {},
-                dialogCadastro: false,
-                dialogEditar: false,
-                headers: [
-                    {
-                        text: 'Produto Id',
-                        align: 'center',
-                        value: 'produto_id',
-                    },
-                    {
-                        text: 'Nome',
-                        align: 'center',
-                        value: 'nome',
-                    },
-                    {
-                        text: 'Valor Unitario',
-                        align: 'center',
-                        value: 'valor_unitario',
-                    },
-                    {
-                        text: 'Quantidade Estoque',
-                        align: 'center',
-                        value: 'quantidade_estoque',
-                    },
-                    {
-                        text: 'Situaçao Produto',
-                        align: 'center',
-                        value: 'situacao_produto',
-                    },
-                    {
-                        text: 'Acoes',
-                        align: 'center',
-                        value: 'icons',
-                    },
-                ],
-            }
+import axios from 'axios';
+import NovoProduto from '../components/NovoProduto.vue';
+import EditarProduto from '../components/EditarProduto.vue';
+
+export default {
+  data() {
+    return {
+      produtos: [],
+      produtoUnico: {},
+      dialogCadastro: false,
+      dialogEditar: false,
+      headers: [
+        {
+          text: 'Produto Id',
+          align: 'center',
+          value: 'produto_id',
         },
-        components: {
-            NovoProduto,
-            EditarProduto,
+        {
+          text: 'Nome',
+          align: 'center',
+          value: 'nome',
         },
-        created() {
-            axios.get('http://127.0.0.1:8000/api/produto')
-                .then(res => this.produtos = res.data)
-                .catch(error => console.log(error.response.data));
+        {
+          text: 'Valor Unitario',
+          align: 'center',
+          value: 'valor_unitario',
         },
-        methods: {
-            editarProduto(item) {
-                this.dialogEditar = !this.dialogEditar;
-                this.produtoUnico = item;
-            },
-            excluirProduto(item) {
-                axios.delete(`http://127.0.0.1:8000/api/produto/${item.produto_id}`)
-                    .then(() => this.produtos.splice(index, 1))
-                    .catch(error => this.errors = error.response.data.error)
-            },
+        {
+          text: 'Quantidade Estoque',
+          align: 'center',
+          value: 'quantidade_estoque',
         },
-    }
+        {
+          text: 'Situaçao Produto',
+          align: 'center',
+          value: 'situacao_produto',
+        },
+        {
+          text: 'Acoes',
+          align: 'center',
+          value: 'icons',
+        },
+      ],
+    };
+  },
+  components: {
+    NovoProduto,
+    EditarProduto,
+  },
+  created() {
+    axios.get('http://127.0.0.1:8000/api/produto')
+    // eslint-disable-next-line
+      .then(res => this.produtos = res.data)
+    // eslint-disable-next-line
+      .catch(error => console.log(error.response.data));
+  },
+  methods: {
+    editarProduto(item) {
+      this.dialogEditar = !this.dialogEditar;
+      this.produtoUnico = item;
+    },
+    excluirProduto(item) {
+      axios.delete(`http://127.0.0.1:8000/api/produto/${item.produto_id}`)
+      // eslint-disable-next-line
+        .then(() => this.produtos.splice(index, 1))
+        // eslint-disable-next-line
+        .catch(error => this.errors = error.response.data.error);
+    },
+  },
+};
 </script>

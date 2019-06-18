@@ -5,7 +5,7 @@ describe('Teste de Pedidos', () => {
     cy.visit('http://localhost:8080/pedidos');
     cy.url().should('eq', 'http://localhost:8080/pedidos');
   });
-  
+
   it('Criar Pedido', () => {
     cy.get('.v-card__text > .v-btn').click();
     cy.get(':nth-child(1) > .v-input > .v-input__control > .v-input__slot > .v-text-field__slot > input').type('Francisco');
@@ -23,7 +23,7 @@ describe('Teste de Pedidos', () => {
     cy.get(':nth-child(12) > .v-input > .v-input__control > .v-input__slot > .v-text-field__slot > input').type('16');
     cy.get('.v-card__actions > :nth-child(3) > .v-btn__content').click();
   });
-  
+
   it('Editar Pedido', () => {
     cy.get(':nth-child(1) > :nth-child(10) > :nth-child(2) > .v-btn__content > .v-icon').click();
     cy.get(':nth-child(1) > .v-input > .v-input__control > .v-input__slot > .v-text-field__slot > input').clear().type('Jorge');
@@ -41,7 +41,7 @@ describe('Teste de Pedidos', () => {
     cy.get(':nth-child(12) > .v-input > .v-input__control > .v-input__slot > .v-text-field__slot > input').clear().type('530');
     cy.get('.v-card__actions > :nth-child(3) > .v-btn__content').click();
   });
-  
+
   it('Deletar Pedido', () => {
     cy.get(':nth-child(1) > :nth-child(10) > :nth-child(1) > .v-btn__content > .v-icon').click();
   });

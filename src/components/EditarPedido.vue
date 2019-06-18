@@ -66,57 +66,56 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import _ from 'lodash';
+import axios from 'axios';
+import _ from 'lodash';
 
-    export default {
-        name: "EditarPedido",
-        props: ['dialogEditar', 'dados'],
-        data() {
-            return {
-                pedido: {
-                    pedido_id: this.dados.pedido_id,
-                    solicitante: this.dados.solicitante,
-                    despachante: this.dados.despachante,
-                    quantidade_pedido: this.dados.quantidade_pedido,
-                    valor_unitario: this.dados.valor_unitario,
-                    situacao_pedido: this.dados.situacao_pedido,
-                    cep: this.dados.cep,
-                    uf: this.dados.uf,
-                    municipio: this.dados.municipio,
-                    bairro: this.dados.bairro,
-                    rua: this.dados.rua,
-                    numero: this.dados.numero,
-                    nome: this.dados.nome,
-                },
-                items: ['Pendente de Envio', 'Enviado', 'Entregue'],
-                produtos: [],
-            }
-        },
-        mounted() {
-            axios.get('http://127.0.0.1:8000/api/produto')
-                .then(res => this.produtos = res.data)
-                .catch(error => console.log(error.response.data));
-        },
-        methods: {
-            closeModal() {
-                this.$emit('update:dialogEditar', false);
-            },
-            alterarPedido() {
-                axios.patch(`http://localhost:8000/api/pedido/${this.pedido.pedido_id}`, this.pedido)
-                    .then(() => {
-                        this.$emit('update:dialogEditar', false);
-                    })
-                    .catch(error => console.log(error.response.data));
+export default {
+  name: 'EditarPedido',
+  props: ['dialogEditar', 'dados'],
+  data() {
+    return {
+      pedido: {
+        pedido_id: this.dados.pedido_id,
+        solicitante: this.dados.solicitante,
+        despachante: this.dados.despachante,
+        quantidade_pedido: this.dados.quantidade_pedido,
+        valor_unitario: this.dados.valor_unitario,
+        situacao_pedido: this.dados.situacao_pedido,
+        cep: this.dados.cep,
+        uf: this.dados.uf,
+        municipio: this.dados.municipio,
+        bairro: this.dados.bairro,
+        rua: this.dados.rua,
+        numero: this.dados.numero,
+        nome: this.dados.nome,
+      },
+      items: ['Pendente de Envio', 'Enviado', 'Entregue'],
+      produtos: [],
+    };
+  },
+  mounted() {
+    axios.get('http://127.0.0.1:8000/api/produto')
+      .then(res => this.produtos = res.data)
+      .catch(error => console.log(error.response.data));
+  },
+  methods: {
+    closeModal() {
+      this.$emit('update:dialogEditar', false);
+    },
+    alterarPedido() {
+      axios.patch(`http://localhost:8000/api/pedido/${this.pedido.pedido_id}`, this.pedido)
+        .then(() => {
+          this.$emit('update:dialogEditar', false);
+        })
+        .catch(error => console.log(error.response.data));
 
-                this.$emit('update:dialogCadastro', false);
-            },
-            buscarNomeProdutos(value) {
-
-                return _.map(value, 'nome');
-            },
-        },
-    }
+      this.$emit('update:dialogCadastro', false);
+    },
+    buscarNomeProdutos(value) {
+      return _.map(value, 'nome');
+    },
+  },
+};
 </script>
 
 <style scoped>
