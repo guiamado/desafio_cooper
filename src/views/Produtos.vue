@@ -50,15 +50,13 @@
     </div>
 </template>
 <script>
-import axios from 'axios';
+import { mapActions, mapGetters } from 'vuex';
 import NovoProduto from '../components/NovoProduto.vue';
 import EditarProduto from '../components/EditarProduto.vue';
 
 export default {
   data() {
     return {
-      produtos: [],
-      produtoUnico: {},
       dialogCadastro: false,
       dialogEditar: false,
       headers: [
@@ -100,23 +98,24 @@ export default {
     EditarProduto,
   },
   created() {
-    axios.get('http://127.0.0.1:8000/api/produto')
-    // eslint-disable-next-line
-      .then(res => this.produtos = res.data)
-    // eslint-disable-next-line
-      .catch(error => console.log(error.response.data));
+    this.obterProdutos();
+  },
+  computed: {
+    ...mapGetters({
+      produtos: 'componentes/dados',
+    }),
   },
   methods: {
+    ...mapActions({
+        obterProdutos: 'componentes/obterProdutos',
+        removerProduto: 'componentes/removerProduto',
+    }),
     editarProduto(item) {
       this.dialogEditar = !this.dialogEditar;
       this.produtoUnico = item;
     },
     excluirProduto(item) {
-      axios.delete(`http://127.0.0.1:8000/api/produto/${item.produto_id}`)
-      // eslint-disable-next-line
-        .then(() => this.produtos.splice(index, 1))
-        // eslint-disable-next-line
-        .catch(error => this.errors = error.response.data.error);
+        this.removerProduto(item.produto_id);
     },
   },
 };

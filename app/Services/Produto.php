@@ -40,7 +40,9 @@ class Produto implements IService
             throw new \Exception($validator->errors()->first());
         }
 
-        $dados['situacao_produto'] = 'Disponivel';
+        if ($dados['quantidade_estoque'] > 0) {
+            $dados['situacao_produto'] = 'Disponivel';
+        }
 
         if ($dados['quantidade_estoque'] == 0) {
             $dados['situacao_produto'] = "Indisponivel";

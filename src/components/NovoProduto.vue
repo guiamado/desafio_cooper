@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'NovoProduto',
@@ -46,15 +46,14 @@ export default {
     };
   },
   methods: {
+      ...mapActions({
+          cadastrarProduto: 'componentes/cadastrarProduto',
+      }),
     closeModal() {
       this.$emit('update:dialogCadastro', false);
     },
     criarProduto() {
-      axios.post('http://localhost:8000/api/produto', this.produto)
-        .then(() => {
-          this.$emit('update:dialogEditar', false);
-        })
-        .catch(error => console.log(error.response.data));
+      this.cadastrarProduto(this.produto);
       this.$emit('update:dialogCadastro', false);
     },
   },

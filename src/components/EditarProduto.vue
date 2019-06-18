@@ -32,7 +32,7 @@
 
 <script>
 import axios from 'axios';
-
+import { mapActions } from 'vuex';
 export default {
   name: 'NovoProduto',
   props: ['dialogEditar', 'dados'],
@@ -42,16 +42,22 @@ export default {
     };
   },
   methods: {
+      ...mapActions({
+          atualizarProduto: 'componentes/atualizarProduto',
+      }),
     closeModal() {
       this.$emit('update:dialogEditar', false);
     },
     alterarProduto() {
-      axios.patch(`http://localhost:8000/api/produto/${this.produto.produto_id}`, this.produto)
-        .then(() => {
-          this.$emit('update:dialogEditar', false);
-        })
-        .catch(error => console.log(error.response.data));
-      this.$emit('update:dialogCadastro', false);
+          if (this.produto.quantidade_estoque > 0) {
+              this.produto.situacao_produto = 'Disponivel';
+          }
+          if (this.produto.quantidade_estoque === 0) {
+              this.produto.situacao_produto = 'Indisponivel';
+          }
+
+        this.atualizarProduto(this.produto);
+      this.$emit('update:dialogEditar', false);
     },
   },
 };
