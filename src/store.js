@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import componentes from './views';
 
 Vue.use(Vuex);
 
@@ -8,11 +9,11 @@ export default new Vuex.Store({
     status: false,
   },
   mutations: {
-    modalCadastroProduto: (state, status) => {
-      state.status = status;
-    }
   },
   actions: {
 
+  },
+  modules: {
+    componentes,
   },
 });

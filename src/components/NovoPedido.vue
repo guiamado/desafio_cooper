@@ -73,56 +73,53 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import _ from 'lodash';
+import { mapActions } from 'vuex';
+import _ from 'lodash';
 
-    export default {
-        name: "NovoPedido",
-        props: ['dialogCadastro'],
-        data() {
-            return {
-                pedido: {
-                    solicitante: '',
-                    despachante: '',
-                    quantidade_pedido: null,
-                    valor_unitario: 0,
-                    situacao_pedido: '',
-                    cep: '',
-                    uf: '',
-                    municipio: '',
-                    bairro: '',
-                    rua: '',
-                    numero: '',
-                    nome: '',
-                },
-                items: ['Pendente de Envio', 'Enviado', 'Entregue'],
-                produtos: [],
-            }
-        },
-        mounted() {
-            axios.get('http://127.0.0.1:8000/api/produto')
-                .then(res => this.produtos = res.data)
-                .catch(error => console.log(error.response.data));
-        },
-        methods: {
-            closeModal() {
-                this.$emit('update:dialogCadastro', false);
-            },
-            criarPedido() {
-                axios.post(`http://localhost:8000/api/pedido`, this.pedido)
-                    .then(() => {
-                        this.$emit('update:dialogEditar', false);
-                    })
-                    .catch(error => console.log(error.response.data));
-
-                this.$emit('update:dialogCadastro', false);
-            },
-            buscarNomeProdutos(value) {
-
-                return _.map(value, 'nome');
-            },
-        },
-    }
+export default {
+  name: 'NovoPedido',
+  props: ['dialogCadastro'],
+  data() {
+    return {
+      pedido: {
+        solicitante: '',
+        despachante: '',
+        quantidade_pedido: null,
+        valor_unitario: 0,
+        situacao_pedido: '',
+        cep: '',
+        uf: '',
+        municipio: '',
+        bairro: '',
+        rua: '',
+        numero: '',
+        nome: '',
+      },
+      items: ['Pendente de Envio', 'Enviado', 'Entregue'],
+      produtos: [],
+    };
+  },
+  mounted() {
+    axios.get('http://127.0.0.1:8000/api/produto')
+      .then(res => this.produtos = res.data)
+      .catch(error => console.log(error.response.data));
+  },
+  methods: {
+      ...mapActions({
+          cadastrarPedido: 'componentes/cadastrarPedido',
+      }),
+    closeModal() {
+      this.$emit('update:dialogCadastro', false);
+    },
+    criarPedido() {
+      this.cadastrarPedido(this.pedido);
+      this.$emit('update:dialogCadastro', false);
+    },
+    buscarNomeProdutos(value) {
+      return _.map(value, 'nome');
+    },
+  },
+};
 </script>
 
 <style scoped>

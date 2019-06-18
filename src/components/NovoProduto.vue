@@ -31,33 +31,33 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    export default {
-        name: "NovoProduto",
-        props: ['dialogCadastro'],
-        data() {
-            return {
-                produto: {
-                    nome: '',
-                    valor_unitario: 0,
-                    quantidade_estoque: 0,
-                },
-            }
-        },
-        methods: {
-            closeModal() {
-                this.$emit('update:dialogCadastro', false);
-            },
-            criarProduto() {
-                axios.post(`http://localhost:8000/api/produto`, this.produto)
-                    .then(() => {
-                        this.$emit('update:dialogEditar', false);
-                    })
-                    .catch(error => console.log(error.response.data));
-                this.$emit('update:dialogCadastro', false);
-            },
-        },
-    }
+import { mapActions } from 'vuex';
+
+export default {
+  name: 'NovoProduto',
+  props: ['dialogCadastro'],
+  data() {
+    return {
+      produto: {
+        nome: '',
+        valor_unitario: 0,
+        quantidade_estoque: 0,
+      },
+    };
+  },
+  methods: {
+      ...mapActions({
+          cadastrarProduto: 'componentes/cadastrarProduto',
+      }),
+    closeModal() {
+      this.$emit('update:dialogCadastro', false);
+    },
+    criarProduto() {
+      this.cadastrarProduto(this.produto);
+      this.$emit('update:dialogCadastro', false);
+    },
+  },
+};
 </script>
 
 <style scoped>
