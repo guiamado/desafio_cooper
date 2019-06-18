@@ -9,7 +9,8 @@
                 <td>{{ props.item.pedido_id }}</td>
                 <td class="text-xs-center">{{ props.item.nome }}</td>
                 <td class="text-xs-center">{{ props.item.quantidade_pedido }}</td>
-                <td class="text-xs-center">{{ props.item.valor_unitario }}</td>
+                <td class="text-xs-center">R$ {{ props.item.valor_unitario }}</td>
+                <td class="text-xs-center">R$ {{ props.item.valor_unitario * props.item.quantidade_pedido  }}</td>
                 <td class="text-xs-center">{{ props.item.solicitante }}</td>
                 <td class="text-xs-center">{{ props.item.despachante }}</td>
                 <td class="text-xs-center">{{ props.item.situacao_pedido }}</td>
@@ -74,6 +75,11 @@
                         text: 'Valor Unitario',
                         align: 'center',
                         value: 'valor_unitario',
+                    },
+                    {
+                        text: 'Valor Total',
+                        align: 'center',
+                        value: 'total',
                     },
                     {
                         text: 'Solicitante',
